@@ -1,0 +1,38 @@
+html{
+    font-size: 62.5%;
+}
+
+body{
+    height: 100vh;
+    font-size: 1.6rem;
+    background-color: aliceblue;
+}
+
+h1{
+    font-size: 2.5rem;
+}
+
+.container{
+    background-color: antiquewhite;
+    display: flex;
+}
+
+.card{
+    text-align: center;
+    font-size: 14rem;
+    width: 20rem;
+    height: 20rem;
+    border: 0.2rem solid blue;
+}
+
+.card:hover{
+    cursor: pointer;
+}
+.reset{
+    width: 100%;
+}
+
+.reset button{
+    font-size: 2rem;
+    height: 5rem;
+}
