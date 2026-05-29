@@ -13,7 +13,7 @@ let marcadas = 0
 let combinacionGanadora;
 const combinaciones = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 turno.textContent = 'Turno del Jugador X'
-let jugadas = [0,1,2,3,4,5,6,7,8]
+let jugadas = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 const buscarGanador = (jugadasDeO, jugadasDeX) => {
     if (jugadasDeO.length >= 3) {
@@ -25,7 +25,7 @@ const buscarGanador = (jugadasDeO, jugadasDeX) => {
                     aciertosO++
                 }
                 if (aciertosO == 3) {
-                    h2.textContent = 'Gano O'
+                    h2.textContent = 'Gano La Cpu'
                     combinacionGanadora = combinaciones[i]
                     tittle.append(h2)
                     ganador = true
@@ -66,30 +66,27 @@ const pintarGanador = (combinacionGanadora) => {
     }
     )
 }
+const numeroRandom = (largo) => {
+    return Math.floor(Math.random() * largo)
+}
+
+
+
 casillas.forEach(casilla => {
     casilla.addEventListener('click', (event) => {
         if (!event.target.classList.contains('marcada') && ganador == false) {
-            if (contadorClicks % 2 == 0 && jugadasDeX.length <= 4) {
+            if (contadorClicks <= 5 && jugadasDeX.length <= 4) {
                 turno.textContent = 'Turno del Jugador O'
                 casilla.textContent = 'X'
                 jugadasDeX.push(parseInt(event.target.id))
                 contadorClicks++
                 marcadas++
                 casilla.classList.add('marcada')
-                jugadas.splice(event.target.id,1)
-                console.log(jugadas)
-            } else if (jugadasDeX.length <= 4) {
-                jugadasDeO.push(parseInt(event.target.id))
-                casilla.classList.add('marcada')
-                contadorClicks++
-                marcadas++
-            }
-            if (buscarGanador(jugadasDeO, jugadasDeX)) {
-                pintarGanador(combinacionGanadora)
-                turno.remove()
-            }
-        }
-        if (marcadas == 9 && ganador == false) {
+                jugadas.splice(jugadas.indexOf(parseInt(event.target.id)), 1)
+                if (buscarGanador(jugadasDeO, jugadasDeX)) {
+                    pintarGanador(combinacionGanadora)
+                    turno.remove()
+                } else  if (marcadas == 9 && ganador == false) {
             casillas.forEach(num => {
                 num.classList.remove('bg-info')
                 num.classList.add('bg-danger')
@@ -97,9 +94,29 @@ casillas.forEach(casilla => {
             h2.textContent = "Empate!!!!"
             tittle.append(h2)
             turno.remove()
+        }else {
+                    let Cpu = numeroRandom(jugadas.length)
+                    while (casillas[jugadas[Cpu]].classList.contains('marcada')) {
+                        Cpu = numeroRandom(jugadas.length)
+                        console.log('hola')
+                    }
+                    casillas[jugadas[Cpu]].classList.add('marcada')
+                    marcadas++
+                    jugadasDeO.push(jugadas[Cpu])
+                    casillas[jugadas[Cpu]].textContent = 'O'
+                    jugadas.splice(Cpu, 1)
+                }
+            }
+                   
+            if (buscarGanador(jugadasDeO, jugadasDeX)) {
+                pintarGanador(combinacionGanadora)
+                turno.remove()
+            }
         }
+
     })
 })
+
 reinicio.addEventListener('click', (event) => {
     casillas.forEach(num => {
         turno.textContent = 'Turno del Jugador X'
@@ -113,6 +130,7 @@ reinicio.addEventListener('click', (event) => {
         jugadasDeO = []
         jugadasDeX = []
         combinacionGanadora = []
+        jugadas = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     }
     )
 })
