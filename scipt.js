@@ -13,6 +13,7 @@ let marcadas = 0
 let combinacionGanadora;
 const combinaciones = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 turno.textContent = 'Turno del Jugador X'
+let jugadas = [0,1,2,3,4,5,6,7,8]
 
 const buscarGanador = (jugadasDeO, jugadasDeX) => {
     if (jugadasDeO.length >= 3) {
@@ -75,9 +76,9 @@ casillas.forEach(casilla => {
                 contadorClicks++
                 marcadas++
                 casilla.classList.add('marcada')
+                jugadas.splice(event.target.id,1)
+                console.log(jugadas)
             } else if (jugadasDeX.length <= 4) {
-                turno.textContent = 'Turno del Jugador X'
-                casilla.textContent = 'O'
                 jugadasDeO.push(parseInt(event.target.id))
                 casilla.classList.add('marcada')
                 contadorClicks++
@@ -97,7 +98,6 @@ casillas.forEach(casilla => {
             tittle.append(h2)
             turno.remove()
         }
-
     })
 })
 reinicio.addEventListener('click', (event) => {
